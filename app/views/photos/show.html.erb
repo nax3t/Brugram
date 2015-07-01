@@ -2,6 +2,8 @@
 <p><%= @photo.body %></p>
 <%= image_tag @photo.url, :class => 'photos' %>
 
-<p><%= link_to 'Edit', edit_photo_path(@photo) %></p>
+<p><%= link_to 'Edit', edit_photo_path(@photo) %> | <%= link_to 'Destroy', photo_path(@photo),
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %></p>
 
 <%= render 'back' %>

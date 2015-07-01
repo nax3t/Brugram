@@ -1,6 +1,7 @@
 class PhotosController < ApplicationController
   before_action :set_user
-
+  before_action :find_photo, except: [:index, :new, :create]
+  
   def index
     @photos = @user.photos
   end
@@ -20,22 +21,32 @@ class PhotosController < ApplicationController
   end
 
   def show
-    @photo = @user.photos.find(params[:id])
   end
 
   def edit
   end
 
   def update
+    if @photo.update(photo_params)
+      redirect_to @photo
+    else
+      render 'edit'
+    end
   end
 
   def destroy
+    @photo.destroy
+    redirect_to photos_path
   end
 
   private
 
   def photo_params
     params.require(:photo).permit(:title, :url, :body)
+  end
+
+  def find_photo
+    @photo = @user.photos.find(params[:id])
   end
 
   def set_user
