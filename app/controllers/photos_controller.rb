@@ -4,6 +4,8 @@ class PhotosController < ApplicationController
   
   def index
     @photos = @user.photos
+
+    @public_photos = Photo.all
   end
 
   def new
@@ -42,11 +44,17 @@ class PhotosController < ApplicationController
   private
 
   def photo_params
-    params.require(:photo).permit(:title, :url, :body)
+    params.require(:photo).permit(:title, :url, :body, :public)
   end
 
   def find_photo
-    @photo = @user.photos.find(params[:id])
+    @photo = Photo.find(params[:id])
+    if @photo.public || @photo.user == @user
+      render 'show'
+    else
+      flash[:notice] = 'That photo is private!'
+      redirect_to photos_path
+    end
   end
 
   def set_user

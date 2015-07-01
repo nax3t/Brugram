@@ -4,5 +4,13 @@
 	<li><%= link_to photo.title, photo_path(photo) %></li>
 <% end %>
 </ul>
+<h3>Public photos:</h3>
+<ul>
+<% @public_photos.each do |photo| %>
+	<% if photo.public %>
+	<li><%= link_to photo.title, photo_path(photo) %></li>
+	<% end %>
+<% end %>
+</ul>
 
 <%= render 'back' %>
