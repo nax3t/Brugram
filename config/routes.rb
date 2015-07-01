@@ -1,9 +1,25 @@
 Rails.application.routes.draw do
   
+  get 'comments/index'
+
+  get 'comments/new'
+
+  get 'comments/create'
+
+  get 'comments/show'
+
+  get 'comments/edit'
+
+  get 'comments/update'
+
+  get 'comments/destroy'
+
   devise_for :users
   get 'welcome/index'
 
-  resources :photos
+  resources :photos do
+    resources :comments
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

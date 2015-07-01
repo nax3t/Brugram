@@ -1,9 +1,13 @@
 <h1><%= @photo.title %></h1>
 <p><%= @photo.body %></p>
 <%= image_tag @photo.url, :class => 'photos' %>
-
+<% if @photo.user == @user %>
 <p><%= link_to 'Edit', edit_photo_path(@photo) %> | <%= link_to 'Destroy', photo_path(@photo),
               method: :delete,
               data: { confirm: 'Are you sure?' } %></p>
-
+<% end %>
+<% if @photo.comments.count > 0 %>
+	<%= render @photo.comments.reverse %>
+<% end %>
+<%= render 'comments/form' %>
 <%= render 'back' %>

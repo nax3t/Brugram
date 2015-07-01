@@ -4,10 +4,10 @@
 	<li><%= link_to photo.title, photo_path(photo) %></li>
 <% end %>
 </ul>
-<h3>Public photos:</h3>
+<h3>Other user's public photos</h3>
 <ul>
 <% @public_photos.each do |photo| %>
-	<% if photo.public %>
+	<% if photo.user != current_user %>
 	<li><%= link_to photo.title, photo_path(photo) %></li>
 	<% end %>
 <% end %>

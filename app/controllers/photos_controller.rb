@@ -1,11 +1,10 @@
 class PhotosController < ApplicationController
   before_action :set_user
-  before_action :find_photo, except: [:index, :new, :create]
+  before_action :find_photo, only: [:update, :destroy]
   
   def index
     @photos = @user.photos
-
-    @public_photos = Photo.all
+    @public_photos = Photo.where(:public => true)
   end
 
   def new
@@ -23,9 +22,24 @@ class PhotosController < ApplicationController
   end
 
   def show
+    @photo = Photo.find(params[:id])
+    @comment = Comment.new(:photo => @photo)
+    if @photo.public || @photo.user == @user
+      render 'show'
+    else
+      flash[:notice] = 'That photo is private!'
+      redirect_to photos_path
+    end
   end
 
   def edit
+    @photo = Photo.find(params[:id])
+    if @photo.public || @photo.user == @user
+     render 'edit'
+    else
+     flash[:notice] = 'That photo is private!'
+     redirect_to photos_path
+    end
   end
 
   def update
@@ -48,13 +62,7 @@ class PhotosController < ApplicationController
   end
 
   def find_photo
-    @photo = Photo.find(params[:id])
-    if @photo.public || @photo.user == @user
-      render 'show'
-    else
-      flash[:notice] = 'That photo is private!'
-      redirect_to photos_path
-    end
+    @photo = @user.photos.find(params[:id])
   end
 
   def set_user
