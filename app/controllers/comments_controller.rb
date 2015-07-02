@@ -2,9 +2,6 @@ class CommentsController < ApplicationController
   
   before_action :set_user
 
-  def index
-  end
-
   def new
   end
 
@@ -17,18 +14,6 @@ class CommentsController < ApplicationController
     else
       render @photo
     end
-  end
-
-  def show
-  end
-
-  def edit
-  end
-
-  def update
-  end
-
-  def destroy
   end
 
   private
